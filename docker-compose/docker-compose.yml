@@ -5,7 +5,7 @@ volumes:
   grafana_data: {}
   alertmanager_data: {}
 
-# 环境变量的设置：在当前目录下创建 .env 文件，然后拷贝如下文件即可。
+# 环境变量的设置：见当前目录下的.env 文件。
 # - PROMETHEUS_HOST=localhost
 # - DINGTALK_TOKEN=YOUR_DINGTALK_ROBOT_TOKEN
 # - ALIYUN_ACCESS_ID=YOUR_ACCESS_ID
@@ -42,7 +42,7 @@ services:
     - '-p'
     - '9525'
     - '-c'
-    - './aliyun-exporter.yml'  # 此处的配置文件，链接 aliyun-exporter.yml 到 docker-compose/ 下。
+    - './aliyun-exporter.yml'  # 此处的配置文件，链接 aliyun-exporter.yml 到当前目录下。
     environment:
     - ALIYUN_ACCESS_ID=${ALIYUN_ACCESS_ID}
     - ALIYUN_ACCESS_SECRET=${ALIYUN_ACCESS_SECRET}

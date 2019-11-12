@@ -28,7 +28,7 @@ services:
     - '--web.enable-lifecycle'
     - '--storage.tsdb.retention=15d'
     ports:
-    - 9090:9090
+    - "9090:9090"
     links:
     - aliyun-exporter:aliyun-exporter
     - alertmanager:alertmanager
@@ -48,13 +48,13 @@ services:
     - ALIYUN_ACCESS_SECRET=${ALIYUN_ACCESS_SECRET}
     - ALIYUN_REGION=${ALIYUN_REGION}
     ports:
-    - 9525:9525
+    - "9525:9525"
     restart: always
 
   alertmanager:
     image: prom/alertmanager:v0.16.0
     ports:
-    - 9093:9093
+    - "9093:9093"
     volumes:
     - ./alertmanager/:/etc/alertmanager/
     - alertmanager_data:/alertmanager
@@ -68,7 +68,7 @@ services:
   webhook-dingtalk:
     image: timonwong/prometheus-webhook-dingtalk:v0.3.0
     ports:
-    - 8060:8060
+    - "8060:8060"
     command:
     - '--ding.profile=main=https://oapi.dingtalk.com/robot/send?access_token=${DINGTALK_TOKEN}'
     restart: always
@@ -76,7 +76,7 @@ services:
   grafana:
     image: grafana/grafana
     ports:
-    - 3000:3000
+    - "3000:3000"
     volumes:
     - ./grafana/:/etc/grafana/provisioning/
     - grafana_data:/var/lib/grafana

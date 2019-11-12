@@ -34,19 +34,19 @@ class InfoProvider():
     @cached(cache)
     def get_metrics(self, resource: str) -> GaugeMetricFamily:
         return {
-            'ecs': lambda : self.ecs_info(),
-            'rds': lambda : self.rds_info(),
-            'redis': lambda : self.redis_info(),
-            'slb':lambda : self.slb_info(),
-            'mongodb':lambda : self.mongodb_info(),
+            'ecs': lambda: self.ecs_info(),
+            'rds': lambda: self.rds_info(),
+            'redis': lambda: self.redis_info(),
+            'slb': lambda: self.slb_info(),
+            'mongodb': lambda: self.mongodb_info(),
         }[resource]()
 
     def ecs_info(self) -> GaugeMetricFamily:
         req = DescribeECS.DescribeInstancesRequest()
         nested_handler = {
-            'InnerIpAddress': lambda obj : try_or_else(lambda : obj['IpAddress'][0], ''),
-            'PublicIpAddress': lambda obj : try_or_else(lambda : obj['IpAddress'][0], ''),
-            'VpcAttributes': lambda obj : try_or_else(lambda : obj['PrivateIpAddress']['IpAddress'][0], ''),
+            'InnerIpAddress': lambda obj: try_or_else(lambda: obj['IpAddress'][0], ''),
+            'PublicIpAddress': lambda obj: try_or_else(lambda: obj['IpAddress'][0], ''),
+            'VpcAttributes': lambda obj: try_or_else(lambda: obj['PrivateIpAddress']['IpAddress'][0], ''),
         }
         return self.info_template(req, 'aliyun_meta_ecs_info', nested_handler=nested_handler)
 

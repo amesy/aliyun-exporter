@@ -182,7 +182,7 @@ class RDSPerformanceCollector:
         req = DescribeDBInstancePerformanceRequest.DescribeDBInstancePerformanceRequest()
         req.set_DBInstanceId(id)
         req.set_Key(','.join([metric['name'] for metric in self.parent.metrics[rds_performance]]))
-        now = datetime.utcnow();
+        now = datetime.utcnow()
         now_str = now.replace(second=0, microsecond=0).strftime("%Y-%m-%dT%H:%MZ")
         one_minute_ago_str = (now - timedelta(minutes=1)).replace(second=0, microsecond=0).strftime("%Y-%m-%dT%H:%MZ")
         req.set_StartTime(one_minute_ago_str)

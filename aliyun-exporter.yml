@@ -4,15 +4,25 @@ credential:
   region_id: <REGION_ID>
 
 metrics:
-  acs_cdn:
-  - name: QPS
-  acs_mongodb:
-  - name: CPUUtilization
-    period: 300
+  acs_ecs_dashboard:
+    - name: cpu_total
+
+  acs_rds_dashboard:
+    - name: CpuUsage
+
+  acs_kvstore:
+    - name: StandardCpuUsage
+
+  acs_slb_dashboard:
+    - name: PacketTX
+
+  acs_acs_mongodb:
+    -name: SingleNodeCPUUtilization
+
 
 info_metrics:
   - ecs
   - rds
   - redis
-  - slb
   - mongodb
+  - slb

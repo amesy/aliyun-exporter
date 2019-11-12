@@ -27,7 +27,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     zip_safe=False,
-    package_data={'aliyun_exporter': ['static/*','templates/*']},
+    package_data={'aliyun_exporter': ['static/*', 'templates/*']},
     install_requires=[
         'prometheus-client',
         'aliyun-python-sdk-cms==6.0.13',

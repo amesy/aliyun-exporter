@@ -50,8 +50,7 @@ class CollectorConfig(object):
             self.credential['access_key_secret'] = access_secret
         if region is not None and len(region) > 0:
             self.credential['region_id'] = region
-        if self.credential['access_key_id'] is None or \
-                self.credential['access_key_secret'] is None:
+        if self.credential['access_key_id'] is None or self.credential['access_key_secret'] is None:
             raise Exception('Credential is not fully configured.')
 
 class AliyunCollector(object):
@@ -92,7 +91,7 @@ class AliyunCollector(object):
             return points
         else:
             logging.error('Error query metrics for {}_{}, the response body don not have Datapoints field, please check you permission or workload' .format(project, metric))
-            return points
+            return []
 
     def parse_label_keys(self, point):
         return [k for k in point if k not in ['timestamp', 'Maximum', 'Minimum', 'Average']]

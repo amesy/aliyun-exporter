@@ -5,7 +5,7 @@ volumes:
   grafana_data: {}
   alertmanager_data: {}
 
-# provide the following env
+# 环境变量的设置：在当前目录下创建 .env 文件，然后拷贝如下文件即可。
 # - PROMETHEUS_HOST=localhost
 # - DINGTALK_TOKEN=YOUR_DINGTALK_ROBOT_TOKEN
 # - ALIYUN_ACCESS_ID=YOUR_ACCESS_ID
@@ -17,32 +17,32 @@ services:
   prometheus:
     image: prom/prometheus:v2.6.1
     volumes:
-    - ./prometheus/:/etc/prometheus/
-    - prometheus_data:/prometheus
+      - ./prometheus:/usr/local/prometheus/prometheus/
+      - prometheus_data:/usr/local/prometheus/prometheus/data/
     command:
-    - '--config.file=/etc/prometheus/prometheus.yml'
-    - '--storage.tsdb.path=/prometheus'
-    - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-    - '--web.console.templates=/usr/share/prometheus/consoles'
-    - '--web.external-url=http://${PROMETHEUS_HOST}:9090/'
-    - '--web.enable-lifecycle'
-    - '--storage.tsdb.retention=15d'
+      - '--config.file=/usr/local/prometheus/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.external-url=http://${PROMETHEUS_HOST}:9090/'
+      - '--web.enable-lifecycle'
+      - '--storage.tsdb.retention=15d'
     ports:
     - "9090:9090"
     links:
-    - aliyun-exporter:aliyun-exporter
-    - alertmanager:alertmanager
+    - "aliyun-exporter:aliyun-exporter"
+    - "alertmanager:alertmanager"
     restart: always
 
   aliyun-exporter:
     image: aylei/aliyun-exporter:0.3.1
     volumes:
-    - ./exporter/:/etc/aliyun-exporter
+    - ./exporter/:/Users/amesy/.pyenv/shims/aliyun-exporter
     command:
     - '-p'
     - '9525'
     - '-c'
-    - '/etc/aliyun-exporter/aliyun-exporter.yml'
+    - './aliyun-exporter.yml'  # 此处的配置文件，链接 aliyun-exporter.yml 到 docker-compose/ 下。
     environment:
     - ALIYUN_ACCESS_ID=${ALIYUN_ACCESS_ID}
     - ALIYUN_ACCESS_SECRET=${ALIYUN_ACCESS_SECRET}
@@ -76,13 +76,18 @@ services:
   grafana:
     image: grafana/grafana
     ports:
-    - "3000:3000"
+      - "3000:3000"
     volumes:
-    - ./grafana/:/etc/grafana/provisioning/
-    - grafana_data:/var/lib/grafana
+      - ./grafana:/usr/local/Cellar/grafana/6.4.3/bin/grafana-server
+      - grafana_data:/var/lib/grafana/
     environment:
-    - GF_INSTALL_PLUGINS=camptocamp-prometheus-alertmanager-datasource
+      - GF_INSTALL_PLUGINS=camptocamp-prometheus-alertmanager-datasource
     links:
-    - prometheus:prometheus
-    - alertmanager:alertmanager
+      - "prometheus:prometheus"
+      - "alertmanager:alertmanager"
     restart: always
+
+volumes:
+  prometheus_data:
+  alertmanager_data:
+  grafana_data:

@@ -1,4 +1,5 @@
 import json
+import os
 
 from aliyunsdkcore.client import AcsClient
 from cachetools import cached, TTLCache
@@ -9,6 +10,7 @@ import aliyunsdkrds.request.v20140815.DescribeDBInstancesRequest as DescribeRDS
 import aliyunsdkr_kvstore.request.v20150101.DescribeInstancesRequest as DescribeRedis
 import aliyunsdkslb.request.v20140515.DescribeLoadBalancersRequest as DescribeSLB
 import aliyunsdkdds.request.v20151201.DescribeDBInstancesRequest as Mongodb
+import oss2 as oss
 
 from aliyun_exporter.utils import try_or_else
 
@@ -39,6 +41,7 @@ class InfoProvider():
             'redis': lambda: self.redis_info(),
             'slb': lambda: self.slb_info(),
             'mongodb': lambda: self.mongodb_info(),
+            'oss': lambda: self.oss_info(),
         }[resource]()
 
     def ecs_info(self) -> GaugeMetricFamily:
@@ -65,6 +68,18 @@ class InfoProvider():
     def mongodb_info(self) -> GaugeMetricFamily:
         req = Mongodb.DescribeDBInstancesRequest()
         return self.info_template(req, 'aliyun_meta_mongodb_info', to_list=lambda data: data['DBInstances']['DBInstance'])
+
+    def oss_info(self) -> GaugeMetricFamily:
+        # ENV
+        access_id = os.environ.get('ALIYUN_ACCESS_ID')
+        access_secret = os.environ.get('ALIYUN_ACCESS_SECRET')
+        region = os.environ.get('ALIYUN_REGION')
+
+        endpoint = 'http://oss-{}.aliyuncs.com'.format(region)
+        auth = oss.Auth(access_id, access_secret)
+        req = oss.Service(auth, endpoint)
+
+        return self.info_template(req, 'aliyun_meta_oss_info', to_list=lambda data: data['DBInstances']['DBInstance'])
 
     '''
     Template method to retrieve resource information and transform to metric.

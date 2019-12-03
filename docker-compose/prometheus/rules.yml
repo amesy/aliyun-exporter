@@ -348,3 +348,90 @@ groups:
     annotations:
       summary: 'Redis {{ $labels.InstanceName }} connection usage > 95%'
 
+
+----------------------------------
+
+- name: oss
+  rules:
+  - alert: oss_Availability_pressure:warning
+    expr: |-
+      (aliyun_acs_oss_Availability > 80)
+      * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+      label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+    labels:
+      severity: 2
+    for: 5m
+    annotations:
+      summary: 'OSS {{ $labels.HostName }} Availability > 80%'
+  - alert: oss_Availability_pressure:high
+    expr: |-
+      (aliyun_acs_oss_Availability > 95)
+      * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+      label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+    labels:
+      severity: 1
+    for: 5m
+    annotations:
+      summary: 'OSS {{ $labels.HostName }} Availability > 95%'
+  - alert: oss_RequestValidRate_pressure:warning
+    expr: |-
+      (aliyun_acs_oss_RequestValidRate > 80)
+      * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+      label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+    labels:
+      severity: 2
+    for: 5m
+    annotations:
+      summary: 'OSS {{ $labels.HostName }} RequestValidRate > 80%'
+  - alert: oss_RequestValidRate_pressure:high
+    expr: |-
+      (aliyun_acs_oss_RequestValidRate > 95)
+      * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+      label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+    labels:
+      severity: 1
+    for: 5m
+    annotations:
+      summary: 'OSS {{ $labels.HostName }} Availability > 95%'
+
+
+  - alert: oss_UserAvailability_pressure:warning
+      expr: |-
+        (aliyun_acs_oss_UserAvailability > 80)
+        * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+        label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+      labels:
+        severity: 2
+      for: 5m
+      annotations:
+        summary: 'OSS {{ $labels.HostName }} UserAvailability > 80%'
+  - alert: oss_UserAvailability_pressure:high
+      expr: |-
+        (aliyun_acs_oss_UserAvailability > 95)
+        * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+        label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+      labels:
+        severity: 1
+      for: 5m
+      annotations:
+        summary: 'OSS {{ $labels.HostName }} UserAvailability > 95%'
+  - alert: oss_UserRequestValidRate_pressure:warning
+      expr: |-
+        (aliyun_acs_oss_UserRequestValidRate > 80)
+        * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+        label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+      labels:
+        severity: 2
+      for: 5m
+      annotations:
+        summary: 'OSS {{ $labels.HostName }} UserRequestValidRate > 80%'
+  - alert: oss_UserRequestValidRate_pressure:high
+      expr: |-
+        (aliyun_acs_oss_UserRequestValidRate > 95)
+        * on (instanceId) group_left(VpcAttributes,HostName,InnerIpAddress)
+        label_replace(aliyun_meta_oss_info,"instanceId","$1","InstanceId","(.*)")
+      labels:
+        severity: 1
+      for: 5m
+      annotations:
+        summary: 'OSS {{ $labels.HostName }} UserAvailability > 95%'

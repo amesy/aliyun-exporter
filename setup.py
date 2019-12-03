@@ -41,6 +41,7 @@ setup(
         'aliyun-python-sdk-r-kvstore==2.0.5',
         'aliyun-python-sdk-slb==3.2.8',
         "aliyun-python-sdk-dds==2.0.4",
+        "oss2==2.9.0"
     ],
     entry_points={
         'console_scripts': [

@@ -19,6 +19,9 @@ metrics:
   acs_mongodb:
     - name: CPUUtilization
 
+  acs_oss:
+    - name: Availability
+
 
 info_metrics:
   - ecs
@@ -26,3 +29,4 @@ info_metrics:
   - redis
   - mongodb
   - slb
+  - oss

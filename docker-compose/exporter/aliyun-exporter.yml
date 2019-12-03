@@ -257,6 +257,16 @@ metrics:
       period: 300
     - name: SingleNodeQPS
       period: 300
+  acs_oss:
+    - name: UserAvailability
+      period: 60
+    - name: UserRequestValidRate
+      period: 60
+    - name: Availability
+      period: 60
+    - name: RequestValidRate
+      period: 60
+
 
 info_metrics:
   - ecs
@@ -264,3 +274,4 @@ info_metrics:
   - redis
   - slb
   - mongodb
+  - oss

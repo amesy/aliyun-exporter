@@ -79,7 +79,7 @@ class InfoProvider():
         auth = oss.Auth(access_id, access_secret)
         req = oss.Service(auth, endpoint)
 
-        return self.info_template(req, 'aliyun_meta_oss_info', to_list=lambda data: data['DBInstances']['DBInstance'])
+        return self.info_template(req, 'aliyun_meta_oss_info', to_list=lambda data: data['BucketNames']['BucketName'])
 
     '''
     Template method to retrieve resource information and transform to metric.
